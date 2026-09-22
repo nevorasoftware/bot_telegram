@@ -59,8 +59,14 @@ async def consultar_gemini(consulta_usuario: str) -> str:
     Envía la consulta del usuario a Gemini con la herramienta url_context
     y un prompt estricto de grounding pero con tono natural y conversacional.
     """
-    prompt = f"""Eres el asistente virtual oficial de atención y experiencia al cliente de GeniusBet El Salvador 🇸🇻✨.
-Tu personalidad es sumamente cálida, alegre, cercana, entusiasta y muy profesional 🤝🎉. Tu misión es brindar la mejor experiencia a cada jugador con respuestas claras, motivadoras y muy visuales.
+    prompt = f"""Eres un asesor oficial del equipo de atención y experiencia al cliente de GeniusBet El Salvador 🇸🇻✨.
+Tu trato es sumamente cálido, alegre, cercano, entusiasta y muy profesional 🤝🎉. Hablas como una persona real, atenta y servicial que forma parte del equipo de GeniusBet.
+
+REGLAS DE IDENTIDAD Y ESTILO:
+- NUNCA menciones que eres un bot, robot, inteligencia artificial, modelo de lenguaje o programa de computadora. Jamás menciones modelos técnicos ni nombres como Gemini, Google, OpenAI, etc.
+- Habla siempre en primera persona como miembro del equipo humano de GeniusBet ("Con gusto te ayudo", "En nuestro equipo te apoyamos", "Te comparto los detalles...", etc.).
+- Si el usuario te pregunta directamente "¿eres un bot?" o similar, responde con simpatía y naturalidad:
+  "¡Hola! 👋 Soy parte del equipo de atención de GeniusBet El Salvador 🇸🇻🤝. Estoy aquí para atenderte con total gusto y resolver cualquier duda sobre tus apuestas, cuenta o promociones. ¿En qué te puedo colaborar hoy? 😊✨"
 
 FUENTES DE INFORMACIÓN OFICIALES (Lee y fundamenta tus respuestas en estas páginas web):
 1. 📄 Términos y Condiciones: {URL_TERMS}
@@ -68,14 +74,14 @@ FUENTES DE INFORMACIÓN OFICIALES (Lee y fundamenta tus respuestas en estas pág
 3. 🎁 Promociones y Bonos: {URL_PROMOS}
 
 DIRECTRICES PARA UNA CONVERSACIÓN NATURAL Y RICA EN EMOTICONES:
-- ¡Usa emoticones de manera expresiva y abundante en tus respuestas! 🎉⚽🎰🎁💰🔥🏆✨👏 Para cada sección, viñeta o idea clave, utiliza emojis relacionados (ejemplo: ⚽ para deportes, 🎰 para casino/slots, 🎁 para bonos, 💵 para depósitos/retiros, 📋 para reglas o requisitos, ⚠️ para advertencias importantes, 🚀 para animar al usuario).
-- Saluda siempre con mucha cordialidad y energía positiva si el usuario te saluda o inicia conversación (ejemplo: "¡Hola! 👋 Qué gusto saludarte 🎉 Con mucho gusto te ayudo con eso...").
-- Cuando pregunten sobre promociones, bonos, torneos o beneficios, ¡hazlo sonar emocionante y atractivo! 🎁💥 Detalla premios, vigencia, requisitos de apuesta/rollover y pasos para participar de forma muy visual y organizada con listas y emojis.
-- Cuando la consulta sea sobre aspectos legales, límites de edad, verificación de cuenta, depósitos o retiros, explica las normas de forma transparente, estructurada y fácil de entender, citando la sección o regla cuando aporte valor 📌📜.
-- Utiliza siempre negritas, listas con viñetas y emojis destacados para que la lectura en el móvil sea dinámica y entretenida 📱✨.
-- REGLA DE VERACIDAD (GROUNDING): Basa toda tu información estrictamente en el contenido de las 3 páginas web indicadas. No inventes promociones ni datos inexistentes.
-- SI LA INFORMACIÓN NO ESTÁ EN LAS PÁGINAS: No respondas de forma fría ni robótica. Di algo amable, empático y colaborativo como:
-  "¡Uy! Por el momento no encuentro ese detalle específico en nuestros términos oficiales ni en el catálogo de promociones 🤔💭. ¡Pero no te preocupes! 🙌 Puedes comunicarte directamente con nuestro equipo de soporte en vivo en GeniusBet.sv para que te asistan al instante. ¡Siempre están listos para ayudarte! 💬🚀"
+- ¡Usa emoticones de manera expresiva y agradable en tus respuestas! 🎉⚽🎰🎁💰🔥🏆✨👏 Úsalos de acuerdo al tema (⚽ para deportes, 🎰 para casino/slots, 🎁 para bonos, 💵 para depósitos/retiros, 📋 para reglas, ⚠️ para advertencias importantes, 🚀 para animar al cliente).
+- Saluda siempre con mucha cordialidad y energía si el usuario te saluda o inicia conversación (ejemplo: "¡Hola! 👋 Qué gusto saludarte 🎉 Con mucho gusto te ayudo con eso...").
+- Cuando pregunten sobre promociones, bonos, torneos o beneficios, ¡explícalo de forma atractiva y clara! 🎁💥 Detalla premios, vigencia, requisitos de apuesta/rollover y pasos para participar de forma visual y organizada con viñetas.
+- Cuando la consulta sea sobre aspectos legales, límites de edad, verificación de cuenta, depósitos o retiros, explica las normas con sencillez y claridad, citando la sección o regla cuando aporte valor 📌📜.
+- Utiliza siempre negritas, listas con viñetas y emojis destacados para que la lectura en el móvil sea fluida y entretenida 📱✨.
+- REGLA DE VERACIDAD (GROUNDING): Basa toda tu información estrictamente en el contenido de las 3 páginas web indicadas. No inventes promociones ni datos que no existan.
+- SI LA INFORMACIÓN NO ESTÁ EN LAS PÁGINAS: No respondas de forma fría ni robótica. Di algo amable y colaborativo como:
+  "¡Uy! Por el momento no tengo ese dato específico a la mano en nuestros términos ni en las promociones publicadas 🤔💭. ¡Pero no te preocupes! 🙌 Puedes comunicarte directamente con nuestro equipo de soporte en vivo en GeniusBet.sv para que te den una respuesta exacta de inmediato. ¡Con gusto te atenderán! 💬🚀"
 
 Consulta del usuario:
 {consulta_usuario}"""
@@ -96,16 +102,16 @@ Consulta del usuario:
                 parts = candidates[0].get("content", {}).get("parts", [])
                 text_parts = [p.get("text", "") for p in parts if "text" in p]
                 return "".join(text_parts).strip()
-            return "No se pudo extraer una respuesta del modelo 🤔."
+            return "No se pudo obtener la información en este momento 🤔."
         
         elif response.status_code == 429:
-            logger.warning("Cuota de Gemini excedida (429).")
+            logger.warning("Cuota de API excedida (429).")
             return (
-                "⚠️ ¡Hola! En este momento estamos recibiendo un volumen alto de consultas 📈. "
-                "Por favor, intenta nuevamente en un minuto para ayudarte con todo gusto. ¡Gracias por tu paciencia! 🙏✨"
+                "⚠️ ¡Hola! En este momento estamos atendiendo muchas consultas a la vez 📈. "
+                "Por favor, dame un minutito y vuelve a preguntarme para atenderte como te mereces. ¡Muchas gracias por tu paciencia! 🙏✨"
             )
         else:
-            logger.error(f"Error de Gemini API [{response.status_code}]: {response.text}")
+            logger.error(f"Error de API [{response.status_code}]: {response.text}")
             return (
                 f"❌ Disculpa, ocurrió un pequeño inconveniente técnico al consultar la información ({response.status_code}) ⚙️. "
                 "Por favor intenta de nuevo en unos momentos 🙏."
@@ -116,17 +122,17 @@ Consulta del usuario:
 # MANEJADORES DEL BOT DE TELEGRAM
 # ============================================================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Responde al comando /start con un saludo cálido, interactivo y lleno de emojis."""
+    """Responde al comando /start con un saludo cálido, interactivo y humano."""
     nombre = update.effective_user.first_name if update.effective_user else "amigo/a"
     mensaje_bienvenida = (
-        f"👋 ¡Hola, **{nombre}**! 🎉 Te doy la más cordial bienvenida al asistente virtual oficial de **GeniusBet El Salvador** 🇸🇻✨.\n\n"
-        "Estoy aquí para resolver todas tus dudas con la información más fresca y oficial directamente de nuestra plataforma 🚀:\n\n"
+        f"👋 ¡Hola, **{nombre}**! 🎉 Te doy la bienvenida al canal oficial de atención de **GeniusBet El Salvador** 🇸🇻✨.\n\n"
+        "Estoy aquí para ayudarte en lo que necesites sobre nuestra plataforma: resolver tus dudas, contarte sobre nuestras promociones activas o explicarte cualquier detalle de tus apuestas y cuenta 🚀:\n\n"
         f"🎁 **Promociones y Bonos Activos:** [geniusbet.sv/promos]({URL_PROMOS})\n"
         f"📄 **Términos y Condiciones Oficiales:** [geniusbet.sv/help/terms]({URL_TERMS})\n"
         f"🏠 **Página Principal y Apuestas:** [geniusbet.sv/home]({URL_HOME})\n\n"
         "💡 *¿En qué te puedo colaborar hoy? Puedes preguntarme cosas como:*\n"
         "• 🎁 *¿Cuáles son los bonos o promociones disponibles?*\n"
-        "• 🔞 *¿Cuál es la edad mínima para registrarme?*\n"
+        "• 🔞 *¿Cuál es la edad mínima para abrir cuenta?*\n"
         "• 💳 *¿Cómo funcionan los depósitos y retiros?*\n"
         "• 🆔 *¿Cuáles son los requisitos para verificar mi cuenta?*\n\n"
         "¡Escríbeme tu consulta abajo y con todo gusto te asisto! 👇💬✨"
@@ -137,27 +143,27 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Responde al comando /help con asistencia al usuario."""
     mensaje_ayuda = (
-        "ℹ️ **Centro de Ayuda Rápida** 🤖✨\n\n"
-        "¡Hacer consultas es súper fácil! Solo escribe tu pregunta en el chat y yo me encargaré de consultar en tiempo real nuestros términos legales, reglas de juego y las mejores promociones activas 🎁⚽🎰.\n\n"
+        "ℹ️ **Centro de Ayuda GeniusBet** 💬✨\n\n"
+        "¡Resolver tus dudas es súper fácil! Solo escribe tu consulta aquí en el chat y con gusto te explicaré nuestras promociones vigentes, reglas de deportes, casino y métodos de pago 🎁⚽🎰.\n\n"
         "📌 **Comandos útiles:**\n"
         "• /start - 🚀 Iniciar o reiniciar la conversación\n"
-        "• /help - 📖 Ver este menú de ayuda e instrucciones\n\n"
+        "• /help - 📖 Ver este menú de ayuda\n\n"
         "🌐 **Sitio Web Oficial:** https://www.geniusbet.sv 🇸🇻"
     )
     await update.message.reply_text(mensaje_ayuda, parse_mode="Markdown")
 
 
 async def responder_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Procesa el mensaje del usuario y envía la respuesta fundamentada de Gemini."""
+    """Procesa el mensaje del usuario y envía la respuesta con tono natural y humano."""
     if not update.message or not update.message.text:
         return
 
     consulta_usuario = update.message.text.strip()
     chat_id = update.effective_chat.id
 
-    # 1. Mensaje de espera amigable con emojis
+    # 1. Mensaje de espera amigable y humano
     mensaje_espera = await update.message.reply_text(
-        "🔍 *Consultando la información en vivo de GeniusBet... ¡Dame un segundito!* ⏳✨",
+        "✍️ *Revisando la información, dame un segundito...* ⏳✨",
         parse_mode="Markdown",
     )
 
@@ -165,7 +171,7 @@ async def responder_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Enviar estado de escribiendo
         await context.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 
-        # 2. Consultar Gemini con el nuevo contexto ampliado, tono natural y emojis
+        # 2. Consultar Gemini con el nuevo tono humano y empático
         texto_respuesta = await consultar_gemini(consulta_usuario)
 
         # 3. Manejar límite de longitud de Telegram (máximo 4096 caracteres)
@@ -182,15 +188,16 @@ async def responder_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE)
     except httpx.TimeoutException:
         logger.error("Tiempo de espera agotado al consultar Gemini")
         await mensaje_espera.edit_text(
-            "⏳ Ups, el servidor tardó un poco más de lo habitual en procesar las páginas web 🌐. "
-            "Por favor, intenta enviarme tu consulta nuevamente 🙏."
+            "⏳ Disculpa la demora, el sistema tardó un poco más de lo habitual en cargar los datos 🌐. "
+            "¿Podrías enviarme tu consulta nuevamente por favor? 🙏"
         )
     except Exception as e:
         logger.error(f"Error inesperado al responder consulta: {e}", exc_info=True)
         await mensaje_espera.edit_text(
-            "❌ Ocurrió un error inesperado al procesar tu consulta ⚙️. "
+            "❌ Disculpa, ocurrió un inconveniente al cargar la información ⚙️. "
             "Por favor, intenta de nuevo en unos momentos 🙏."
         )
+
 
 
 
