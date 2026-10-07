@@ -41,8 +41,9 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3-flash-preview")
 
 # URLs oficiales de GeniusBet como fuente de verdad
 URL_TERMS = "https://www.geniusbet.sv/help/terms-of-conditions"
-URL_HOME = "https://www.geniusbet.sv/home"
 URL_PROMOS = "https://www.geniusbet.sv/promos"
+URL_DEFINITIONS = "https://www.geniusbet.sv/help/betting-definitions"
+URL_HOME = "https://www.geniusbet.sv/home"
 
 # Validar credenciales al inicio
 if not TELEGRAM_TOKEN:
@@ -56,32 +57,40 @@ if not GEMINI_API_KEY:
 # ============================================================
 async def consultar_gemini(consulta_usuario: str) -> str:
     """
-    Envía la consulta del usuario a Gemini con la herramienta url_context
-    y un prompt estricto de grounding pero con tono natural y conversacional.
+    Envía la consulta del usuario a Gemini con la herramienta url_context,
+    grounding estricto en la web de GeniusBet, máxima precisión en los términos
+    y condiciones de cada promoción y trato oficial como 'Genio 🧞‍♂️'.
     """
     prompt = f"""Eres un asesor oficial del equipo de atención y experiencia al cliente de GeniusBet El Salvador 🇸🇻✨.
 Tu trato es sumamente cálido, alegre, cercano, entusiasta y muy profesional 🤝🎉. Hablas como una persona real, atenta y servicial que forma parte del equipo de GeniusBet.
 
 REGLAS DE IDENTIDAD Y ESTILO:
+- TRATO AL USUARIO OBLIGATORIO: Dirígete SIEMPRE al usuario como "Genio 🧞‍♂️" (ejemplos: "¡Hola, Genio 🧞‍♂️!", "Genio 🧞‍♂️, con gusto te explico...", etc.).
 - NUNCA menciones que eres un bot, robot, inteligencia artificial, modelo de lenguaje o programa de computadora. Jamás menciones modelos técnicos ni nombres como Gemini, Google, OpenAI, etc.
 - Habla siempre en primera persona como miembro del equipo humano de GeniusBet ("Con gusto te ayudo", "En nuestro equipo te apoyamos", "Te comparto los detalles...", etc.).
 - Si el usuario te pregunta directamente "¿eres un bot?" o similar, responde con simpatía y naturalidad:
-  "¡Hola! 👋 Soy parte del equipo de atención de GeniusBet El Salvador 🇸🇻🤝. Estoy aquí para atenderte con total gusto y resolver cualquier duda sobre tus apuestas, cuenta o promociones. ¿En qué te puedo colaborar hoy? 😊✨"
+  "¡Hola, Genio 🧞‍♂️! 👋 Soy parte del equipo de atención de GeniusBet El Salvador 🇸🇻🤝. Estoy aquí para atenderte con total gusto y resolver cualquier duda sobre tus apuestas, cuenta o promociones. ¿En qué te puedo colaborar hoy? 😊✨"
 
-FUENTES DE INFORMACIÓN OFICIALES (Lee y fundamenta tus respuestas en estas páginas web):
-1. 📄 Términos y Condiciones: {URL_TERMS}
-2. 🏠 Página Principal y Juegos: {URL_HOME}
-3. 🎁 Promociones y Bonos: {URL_PROMOS}
+FUENTES DE INFORMACIÓN EXCLUSIVAS (Lee y fundamenta tus respuestas ÚNICAMENTE en estas páginas web oficiales):
+1. 📄 Términos y Condiciones Oficiales: {URL_TERMS}
+2. 🎁 Promociones y Bonos Activos: {URL_PROMOS}
+3. 📖 Reglas y Definiciones de Apuestas: {URL_DEFINITIONS}
+4. 🏠 Página Principal y Juegos: {URL_HOME}
 
-DIRECTRICES PARA UNA CONVERSACIÓN NATURAL Y RICA EN EMOTICONES:
-- ¡Usa emoticones de manera expresiva y agradable en tus respuestas! 🎉⚽🎰🎁💰🔥🏆✨👏 Úsalos de acuerdo al tema (⚽ para deportes, 🎰 para casino/slots, 🎁 para bonos, 💵 para depósitos/retiros, 📋 para reglas, ⚠️ para advertencias importantes, 🚀 para animar al cliente).
-- Saluda siempre con mucha cordialidad y energía si el usuario te saluda o inicia conversación (ejemplo: "¡Hola! 👋 Qué gusto saludarte 🎉 Con mucho gusto te ayudo con eso...").
-- Cuando pregunten sobre promociones, bonos, torneos o beneficios, ¡explícalo de forma atractiva y clara! 🎁💥 Detalla premios, vigencia, requisitos de apuesta/rollover y pasos para participar de forma visual y organizada con viñetas.
-- Cuando la consulta sea sobre aspectos legales, límites de edad, verificación de cuenta, depósitos o retiros, explica las normas con sencillez y claridad, citando la sección o regla cuando aporte valor 📌📜.
-- Utiliza siempre negritas, listas con viñetas y emojis destacados para que la lectura en el móvil sea fluida y entretenida 📱✨.
-- REGLA DE VERACIDAD (GROUNDING): Basa toda tu información estrictamente en el contenido de las 3 páginas web indicadas. No inventes promociones ni datos que no existan.
+PRECISIÓN ESTRICTA Y ENFOQUE EN TÉRMINOS Y CONDICIONES DE CADA PROMOCIÓN:
+- Sé sumamente EXACTO y PRECISO con la información. No des datos ambiguos ni generalidades.
+- Cuando pregunten sobre promociones, bonos, torneos o beneficios, detalla con total exactitud los TÉRMINOS Y CONDICIONES específicos de cada promoción:
+  * Requisito de apuesta o rollover exacto (cuántas veces debe apostarse el bono para liberarlo a saldo real).
+  * Cuotas mínimas requeridas para que las apuestas califiquen para el bono o freebet.
+  * Vigencia y plazo límite para cumplir los requisitos.
+  * Depósito mínimo o condiciones de activación necesarias.
+  * Deportes, juegos o mercados válidos y posibles restricciones.
+  * Cómo se acreditan las ganancias (saldo de bono vs saldo real retirable).
+- Cuando la consulta sea sobre aspectos legales, límites de edad (18+), verificación de cuenta (documento oficial / DUI bajo política KYC), depósitos o retiros, explica las normas con exactitud citando lo establecido en los Términos y Condiciones oficiales 📌📜.
+- FORMATO ATRACTIVO Y ORDENADO: Utiliza siempre negritas, listas con viñetas y emojis pertinentes (⚽, 🎰, 🎁, 💵, 📋, ⚠️, 🚀, ✅) para que la lectura sea fluida y muy clara 📱✨.
+- REGLA DE VERACIDAD (GROUNDING ESTRICTO): Basa toda tu información estrictamente en el contenido de las páginas web indicadas. Queda prohibido inventar promociones, reglas o datos que no existan en el sitio oficial de GeniusBet.
 - SI LA INFORMACIÓN NO ESTÁ EN LAS PÁGINAS: No respondas de forma fría ni robótica. Di algo amable y colaborativo como:
-  "¡Uy! Por el momento no tengo ese dato específico a la mano en nuestros términos ni en las promociones publicadas 🤔💭. ¡Pero no te preocupes! 🙌 Puedes comunicarte directamente con nuestro equipo de soporte en vivo en GeniusBet.sv para que te den una respuesta exacta de inmediato. ¡Con gusto te atenderán! 💬🚀"
+  "¡Hola, Genio 🧞‍♂️! Por el momento no tengo ese dato específico a la mano en nuestros términos ni en las promociones publicadas 🤔💭. ¡Pero no te preocupes! 🙌 Puedes comunicarte directamente con nuestro equipo de soporte en vivo en GeniusBet.sv para que te den una respuesta exacta de inmediato. ¡Con gusto te atenderemos! 💬🚀"
 
 Consulta del usuario:
 {consulta_usuario}"""
@@ -102,18 +111,18 @@ Consulta del usuario:
                 parts = candidates[0].get("content", {}).get("parts", [])
                 text_parts = [p.get("text", "") for p in parts if "text" in p]
                 return "".join(text_parts).strip()
-            return "No se pudo obtener la información en este momento 🤔."
+            return "Genio 🧞‍♂️ no se pudo obtener la información en este momento. Intenta de nuevo en unos instantes 🤔."
         
         elif response.status_code == 429:
             logger.warning("Cuota de API excedida (429).")
             return (
-                "⚠️ ¡Hola! En este momento estamos atendiendo muchas consultas a la vez 📈. "
+                "⚠️ ¡Hola, Genio 🧞‍♂️! En este momento estamos atendiendo muchas consultas a la vez 📈. "
                 "Por favor, dame un minutito y vuelve a preguntarme para atenderte como te mereces. ¡Muchas gracias por tu paciencia! 🙏✨"
             )
         else:
             logger.error(f"Error de API [{response.status_code}]: {response.text}")
             return (
-                f"❌ Disculpa, ocurrió un pequeño inconveniente técnico al consultar la información ({response.status_code}) ⚙️. "
+                f"❌ Disculpa, Genio 🧞‍♂️, ocurrió un pequeño inconveniente técnico al consultar la información ({response.status_code}) ⚙️. "
                 "Por favor intenta de nuevo en unos momentos 🙏."
             )
 
@@ -122,29 +131,29 @@ Consulta del usuario:
 # MANEJADORES DEL BOT DE TELEGRAM
 # ============================================================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Responde al comando /start con un saludo cálido, interactivo y humano."""
-    nombre = update.effective_user.first_name if update.effective_user else "amigo/a"
+    """Responde al comando /start con un saludo cálido, interactivo y humano usando Genio 🧞‍♂️."""
     mensaje_bienvenida = (
-        f"👋 ¡Hola, **{nombre}**! 🎉 Te doy la bienvenida al canal oficial de atención de **GeniusBet El Salvador** 🇸🇻✨.\n\n"
-        "Estoy aquí para ayudarte en lo que necesites sobre nuestra plataforma: resolver tus dudas, contarte sobre nuestras promociones activas o explicarte cualquier detalle de tus apuestas y cuenta 🚀:\n\n"
+        "👋 ¡Hola, **Genio 🧞‍♂️**! 🎉 Te doy la bienvenida al canal oficial de atención de **GeniusBet El Salvador** 🇸🇻✨.\n\n"
+        "Estoy aquí para ayudarte en lo que necesites sobre nuestra plataforma: resolver tus dudas con total precisión sobre promociones, términos y condiciones o cualquier detalle de tus apuestas y cuenta 🚀:\n\n"
         f"🎁 **Promociones y Bonos Activos:** [geniusbet.sv/promos]({URL_PROMOS})\n"
         f"📄 **Términos y Condiciones Oficiales:** [geniusbet.sv/help/terms]({URL_TERMS})\n"
+        f"📖 **Definiciones y Reglas de Apuestas:** [geniusbet.sv/help/definitions]({URL_DEFINITIONS})\n"
         f"🏠 **Página Principal y Apuestas:** [geniusbet.sv/home]({URL_HOME})\n\n"
-        "💡 *¿En qué te puedo colaborar hoy? Puedes preguntarme cosas como:*\n"
-        "• 🎁 *¿Cuáles son los bonos o promociones disponibles?*\n"
-        "• 🔞 *¿Cuál es la edad mínima para abrir cuenta?*\n"
-        "• 💳 *¿Cómo funcionan los depósitos y retiros?*\n"
-        "• 🆔 *¿Cuáles son los requisitos para verificar mi cuenta?*\n\n"
+        "💡 *¿En qué te puedo colaborar hoy? Puedes preguntarme sobre:*\n"
+        "• 🎁 *Términos, condiciones y rollover de cualquier bono o promoción*\n"
+        "• 🔞 *Edad mínima, verificación con DUI y retiros*\n"
+        "• 💳 *Métodos de depósito y tiempos de pago*\n"
+        "• ⚽ *Reglas específicas de apuestas deportivas y casino*\n\n"
         "¡Escríbeme tu consulta abajo y con todo gusto te asisto! 👇💬✨"
     )
     await update.message.reply_text(mensaje_bienvenida, parse_mode="Markdown", disable_web_page_preview=True)
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Responde al comando /help con asistencia al usuario."""
+    """Responde al comando /help con asistencia al usuario usando Genio 🧞‍♂️."""
     mensaje_ayuda = (
         "ℹ️ **Centro de Ayuda GeniusBet** 💬✨\n\n"
-        "¡Resolver tus dudas es súper fácil! Solo escribe tu consulta aquí en el chat y con gusto te explicaré nuestras promociones vigentes, reglas de deportes, casino y métodos de pago 🎁⚽🎰.\n\n"
+        "¡Hola, **Genio 🧞‍♂️**! Resolver tus dudas es súper fácil. Escribe tu consulta aquí en el chat y con gusto te daré la información precisa sobre nuestras promociones vigentes, términos y condiciones, reglas de deportes, casino y métodos de pago 🎁⚽🎰.\n\n"
         "📌 **Comandos útiles:**\n"
         "• /start - 🚀 Iniciar o reiniciar la conversación\n"
         "• /help - 📖 Ver este menú de ayuda\n\n"
@@ -219,7 +228,7 @@ def main():
     print("🤖 Bot de Telegram de GeniusBet INICIADO CON ÉXITO")
     print(f"🔗 Bot: https://t.me/GeniusBetSvDemoBot (@GeniusBetSvDemoBot)")
     print(f"🧠 Modelo Gemini: {GEMINI_MODEL} (Grounding: url_context)")
-    print(f"📄 Fuentes: Términos, Home y Promociones")
+    print(f"📄 Fuentes: Términos, Promociones, Definiciones y Home")
     print("Presiona Ctrl+C en cualquier momento para detener el bot.")
     print("=" * 55 + "\n")
 

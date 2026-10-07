@@ -1,16 +1,18 @@
 # 🤖 GeniusBet Telegram Bot (Gemini AI & Live URL Grounding)
 
-Bot de atención y experiencia al cliente para Telegram que responde consultas de usuarios basándose exclusivamente en el contenido en tiempo real de la plataforma oficial de GeniusBet El Salvador:
+Bot oficial de atención y experiencia al cliente para Telegram que responde consultas de los usuarios basándose exclusivamente en el contenido en tiempo real del sitio web oficial de GeniusBet El Salvador:
 - 🎁 **Promociones y Bonos:** `https://www.geniusbet.sv/promos`
 - 📄 **Términos y Condiciones:** `https://www.geniusbet.sv/help/terms-of-conditions`
+- 📖 **Definiciones y Reglas de Apuestas:** `https://www.geniusbet.sv/help/betting-definitions`
 - 🏠 **Página Principal:** `https://www.geniusbet.sv/home`
 
 ---
 
 ## 🌟 Características
-- **Grounding en Vivo:** Usa la herramienta `url_context` de Google Gemini para leer las páginas web oficiales en cada consulta.
-- **Tono Natural y Amigable:** Respuestas cálidas, empáticas y dinámicas que facilitan la interacción y fidelización.
-- **Cero Alucinaciones:** Reglas estrictas de veracidad; si un dato no está en las páginas oficiales, guía proactivamente al usuario hacia el soporte en vivo.
+- **Grounding Oficial en Vivo:** Usa la herramienta `url_context` de Google Gemini para consultar directamente las páginas oficiales de GeniusBet en cada interacción.
+- **Trato Oficial "Genio 🧞‍♂️":** Dirigido siempre al usuario con calidez, entusiasmo y el distintivo `Genio 🧞‍♂️`.
+- **Máxima Precisión en Términos y Condiciones:** Enfoque detallado en las reglas específicas de cada promoción (rollover, cuotas mínimas, vigencia, requisitos de activación y retiro).
+- **Cero Alucinaciones:** Reglas estrictas de veracidad; no inventa datos y se basa estrictamente en la web de GeniusBet.
 - **Preparado para Railway:** Incluye `Procfile` y manejo de variables de entorno para despliegue instantáneo en la nube 24/7.
 
 ---
